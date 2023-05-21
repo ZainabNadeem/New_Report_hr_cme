@@ -8,7 +8,7 @@
 <!---V1add new columen of changrate ss --->
 <!---V2add adjestmetn column --->
 <!---V3add first checkbox --->
-
+<cfprocessingdirective pageEncoding="utf-8">  
 
 
 
@@ -897,11 +897,6 @@ order by ALLOCATION_NAME
 			expense_center:'#iif(isdefined("attributes.expense_center"),"attributes.expense_center",DE(""))#'
 		);
 	</cfscript>
-	
-
-
-
-
  <cfquery name="ddd_trad" datasource="#dsn#">
 	 select DEPARTMENT_ID from DEPARTMENT where IS_PRODUCTION =1
 	 </cfquery>
@@ -1993,10 +1988,15 @@ WHERE
     <!---<th style="border:1px solid #000;">الحساب البنكي</th>--->
    <th width="70" style="border:1px solid #000;"> عدد أيام العمل</th>
 <th width="70" style="border:1px solid #000;" >  الراتب  اساسي  </th>
-     <th width="70" style="border:1px solid #000;"> تأمين 1%   </th>
-   
+     <th width="70" style="border:1px solid #000;">  تـأمين 1 %  صندوق التدريب   </th>
+     <th width="70" style="border:1px solid #000;">  تـأمين 2 %  تأمين الصحي </th>
+     <th width="70" style="border:1px solid #000;">  تقاعد 6 %  </th>
+     <th width="70" style="border:1px solid #000;"> تقاعد 9 %    </th>
 
-										
+         <th width="70" style="border:1px solid #000;">  تقاعد 12 % صندوق التقاعد العسكري   </th>
+     <th width="70" style="border:1px solid #000;">  تقاعد 12 % مؤسسة العامه التأمينات </th>
+     <th width="70" style="border:1px solid #000;"> تقاعد 15 %   </th>
+							
 																		
    <th width="70" style="border:1px solid #000;"> تقاعد 12 %   </th> 
  <cfif not len(attributes.col_option)> 
