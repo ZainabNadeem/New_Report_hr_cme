@@ -1987,63 +1987,46 @@ WHERE
     <cfif not len(attributes.col_option)> 
     <!---<th style="border:1px solid #000;">الحساب البنكي</th>--->
    <th width="70" style="border:1px solid #000;"> عدد أيام العمل</th>
-<th width="70" style="border:1px solid #000;" >  الراتب  اساسي  </th>
-     <th width="70" style="border:1px solid #000;">  تـأمين 1 %  صندوق التدريب   </th>
-     <th width="70" style="border:1px solid #000;">  تـأمين 2 %  تأمين الصحي </th>
-     <th width="70" style="border:1px solid #000;">  تقاعد 6 %  </th>
-     <th width="70" style="border:1px solid #000;"> تقاعد 9 %    </th>
-
-         <th width="70" style="border:1px solid #000;">  تقاعد 12 % صندوق التقاعد العسكري   </th>
-     <th width="70" style="border:1px solid #000;">  تقاعد 12 % مؤسسة العامه التأمينات </th>
-     <th width="70" style="border:1px solid #000;"> تقاعد 15 %   </th>
-							
-																		
-   <th width="70" style="border:1px solid #000;"> تقاعد 12 %   </th> 
+   <th width="70" style="border:1px solid #000;" >  الراتب  اساسي  </th>
  <cfif not len(attributes.col_option)> 
    <!--- أجمالي البدلات--->
-      
-      
-	  
-	     <cfif ListFind(attributes.allowance,1,',') OR  len(attributes.allowance)> 
+           <cfif ListFind(attributes.allowance,1,',') OR  len(attributes.allowance)> 
 		 <cfset employee_puantaj_ids = valuelist(get_puantaj_rows.employee_puantaj_id)>
-<cfquery name="get_allow_query" datasource="#dsn#">
-	SELECT 
-		PUANTAJ_ID, 
-		EMPLOYEE_PUANTAJ_ID, 
-		COMMENT_PAY, 
-		PAY_METHOD, 
-		AMOUNT_2, 
-		 isnull(AMOUNT,0) as AMOUNT, 
-		SSK, 
-		TAX, 
-		EXT_TYPE, 
-		ACCOUNT_CODE, 
-		AMOUNT_PAY
-	FROM 
-		EMPLOYEES_PUANTAJ_ROWS_EXT spp
-	WHERE 
-		<cfif listlen(employee_puantaj_ids)>spp.EMPLOYEE_PUANTAJ_ID IN (#employee_puantaj_ids#)<cfelse>1=0</cfif> AND 
-		spp.EXT_TYPE = 0
-		--and  spp.COMMENT_PAY in (
-		--					select ALLOW_TYPE from  [YTECH_COSTUM].[dbo].[SALARY_COULUMN] spg 
-		---						where SPP.COMMENT_PAY = spg.ALLOW_TYPE and spg.allow_tax=1  and spg.ded_amout_day=0) 
-	ORDER BY 
-		COMMENT_PAY
-</cfquery>
-		 <cfquery name="get_allow_name" dbtype="query">
-	SELECT DISTINCT COMMENT_PAY FROM get_allow_query WHERE COMMENT_PAY <> 'Avans' ORDER BY COMMENT_PAY
-</cfquery>
+                        <cfquery name="get_allow_query" datasource="#dsn#">
+                            SELECT 
+                                PUANTAJ_ID, 
+                                EMPLOYEE_PUANTAJ_ID, 
+                                COMMENT_PAY, 
+                                PAY_METHOD, 
+                                AMOUNT_2, 
+                                isnull(AMOUNT,0) as AMOUNT, 
+                                SSK, 
+                                TAX, 
+                                EXT_TYPE, 
+                                ACCOUNT_CODE, 
+                                AMOUNT_PAY
+                            FROM 
+                                EMPLOYEES_PUANTAJ_ROWS_EXT spp
+                            WHERE 
+                                <cfif listlen(employee_puantaj_ids)>spp.EMPLOYEE_PUANTAJ_ID IN (#employee_puantaj_ids#)<cfelse>1=0</cfif> AND 
+                                spp.EXT_TYPE = 0
+                                --and  spp.COMMENT_PAY in (
+                                --					select ALLOW_TYPE from  [YTECH_COSTUM].[dbo].[SALARY_COULUMN] spg 
+                                ---						where SPP.COMMENT_PAY = spg.ALLOW_TYPE and spg.allow_tax=1  and spg.ded_amout_day=0) 
+                            ORDER BY 
+                                COMMENT_PAY
+                        </cfquery>
+                                <cfquery name="get_allow_name" dbtype="query">
+                            SELECT DISTINCT COMMENT_PAY FROM get_allow_query WHERE COMMENT_PAY <> 'Avans' ORDER BY COMMENT_PAY
+                        </cfquery>
 
-<cfoutput query="get_allow_name">
+   <cfoutput query="get_allow_name">
 
-
- <cfset 'ALLOW_#CURRENTROW#_TOTAL'=0>
-</cfoutput>
-
-
+             <cfset 'ALLOW_#CURRENTROW#_TOTAL'=0>
+     </cfoutput>
 
       <cfoutput query="get_allow_name">
-        <th width="70" style="border:1px solid ##000;">#get_allow_name.COMMENT_PAY#</th>
+           <th width="70" style="border:1px solid ##000;">#get_allow_name.COMMENT_PAY#</th>
       </cfoutput>
 	  </cfif>   
     </cfif> 
@@ -2051,6 +2034,21 @@ WHERE
 	
 	  
 	 <th width="70"  style="border:1px solid #000;"> اجمالى البدلات </th>
+
+
+
+
+        <th width="70" style="border:1px solid #000;">  تـأمين 1 %  صندوق التدريب   </th>
+   <th width="70" style="border:1px solid #000;">  تـأمين 2 %  تأمين الصحي </th>
+   <th width="70" style="border:1px solid #000;">  تقاعد 6 %  </th>
+   <th width="70" style="border:1px solid #000;"> تقاعد 9 %    </th>
+
+    <th width="70" style="border:1px solid #000;">  تقاعد 12 % صندوق التقاعد العسكري   </th>
+     <th width="70" style="border:1px solid #000;">  تقاعد 12 % مؤسسة العامه التأمينات </th>
+     <th width="70" style="border:1px solid #000;"> تقاعد 15 %   </th>																		
+    <th width="70" style="border:1px solid #000;"> تقاعد 12 %   </th> 
+
+
 	 <th width="70" style="border:1px solid #000;"> إجمالي الاستحقاقات   </th>
 	 <cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
 
@@ -2125,48 +2123,24 @@ WHERE
 <cfset 'ded#CURRENTROW#_T1'=0>
  
 </cfoutput>
-
-
-
       <cfoutput query="get_ded_name">
         <th width="70" style="border:1px solid ##000;">#get_ded_name.COMMENT_PAY#</th>
       </cfoutput>
-
-
-
       <cfoutput query="get_ded1_name">
         <th width="70" style="border:1px solid ##000;">#get_ded1_name.COMMENT_PAY#</th>
       </cfoutput>
-
-
-
-
-
-
-
-
-
-
-
-
-
 	 </cfif>
-	 
 
-
-
-
-	 <th width="70" width="70" style="border:1px solid #000;"> إجمالي الاستقطاعات   </th>
+ <th width="70" width="70" style="border:1px solid #000;"> إجمالي الاستقطاعات   </th>
 	   
    <cfif ListFind(attributes.col_option,1,',') OR not len(attributes.col_option)> 
 																		 
-<th width="70" style="border:1px solid #000;"> كسب العمل </th>   
-   <th width="70"  style="border:1px solid #000;"> تأمينات </th>
+<th width="70" style="border:1px solid #000;"> احتساب ضريبة  </th>   
+   <th width="70"  style="border:1px solid #000;"> توريد جزئي  </th>
 			  
 			
- <th width="70" style="border:1px solid #000;"> تأمين إصابة عمل </th>  
-  <th width="70" style="border:1px solid #000;"> مجموع الاستقطاعات  </th>  
- <th width="70" style="border:1px solid #000;"> الايقاف </th>  
+ <th width="70" style="border:1px solid #000;"> توريد  </th>  
+  <th width="70" style="border:1px solid #000;"> مجموع الاستقطاعات  </th>   
   <th width="70" style="border:1px solid #000;"> صافي الراتب </th>  
    </cfif>
 				  
