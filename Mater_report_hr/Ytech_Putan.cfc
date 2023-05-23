@@ -1,4 +1,4 @@
-<!---THIS REPORT HAD BEEN DEVELOPED BY ENG.YAhya & zainb nadeem --->
+<!---THIS REPORT HAD BEEN DEVELOPED BY ENG.YAhya & zainab nadeem --->
 <cfcomponent>
 <cfset dsn = application.systemParam.systemParam().dsn>
  <cfset This.EMPLOYEE_PUANTAJ_ID = 1>
