@@ -151,11 +151,11 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
   where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
   </cfquery>
   
-  <cfquery name="ORGANIZATION_STEPS?1" datasource="#dsn#">
+  <cfquery name="ORGANIZATION_STEPS_1" datasource="#dsn#">
        SELECT 
-      COLLAR_TYPE   
+      DUTY_TYPE   
 	 (SELECT TOP (1) EMPLOYEE_EMAIL FROM EMPLOYEES WHERE EMPLOYEE_ID=#SESSION.EP.USERID#) AS SENDER
-  FROM [EMPLOYEE_POSITIONS]
+    FROM [EMPLOYEES_IN_OUT]
 
   where  EMPLOYEE_ID in ( select EMPLOYEE_ID from employees  ES
   where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
@@ -2282,8 +2282,17 @@ WHERE
   <!---5--->     <td   style="#row_color#">#EMPLOYEE_NAME# #EMPLOYEE_SURNAME#</td> 
 
  <td   style="#row_color#width:10;"  >#ORGANIZATION_STEP_NAME#</td> 
- <td   style="#row_color#width:10;"  > <cfif #COLLAR_TYPE# eq 1 > مدني <cfelse> جيش </cfif></td> 
-  <!---6--->    <td   style="#row_color#"  >#POSITION_NAME#</td>
+ <td   style="#row_color#width:10;"  >
+ <CFIF #DUTY_TYPE# eq 1>
+    HTML and CFML tags
+<CFELSEIF>
+    HTML and CFML tags 1
+<CFELSE #DUTY_TYPE# eq 3>
+    HTML and CFML tags
+</CFIF>
+ 
+ <!---- <cfif #DUTY_TYPE# eq 1 > صندوق تأمينات الجيش  <CFELSEIF> صندوق الهيئة العامة للتأمينات  <CFELSE #DUTY_TYPE# eq 3> صندوق المؤسسة العامة للتامينات </cfif></td> 
+ -----><!---6--->    <td   style="#row_color#"  >#POSITION_NAME#</td>
     <!---7--->    <td   style="#row_color#"  >#branch_name# </td>
   <!---7--->    <td   style="#row_color#"  >#DEPARTMENT_HEAD#</td>
 
