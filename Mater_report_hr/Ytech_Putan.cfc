@@ -481,7 +481,13 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
 		CTE2 AS
 		(
 		SELECT *,
-		( CASE when Gr_all = 3 then r else base_salary_A end) as Salary_days_work
+		( CASE when Gr_all = 3 then r else base_salary_A end) as Salary_days_workو
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnboss_)) /maxdayofmon * Work_day) else (r * INnboss_) END ) as SSK1_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * 0.00)) /maxdayofmon * Work_day) else (r * 0.00) END ) as SSK1_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * 0.00)) /maxdayofmon * Work_day) else (r * 0.00) END ) as SSK1_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  
 		
 		
 		FROM CTE00
