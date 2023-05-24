@@ -37,6 +37,35 @@ SELECT        POSITION_NAME,SAL_YEAR, SAL_MON,GROSS_NET
 ,SALARY_TYPE,SALARY,in_out_id,
 
 
+(select top 1 [PAT_INS_PREMIUM_BOSS_2] ---12 صندوق التقاعد العسكري 
+ FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE
+ )/100 as INnemp12_,
+
+(select top 1 [DEATH_INSURANCE_PREMIUM_BOSS] ---12 مؤسسة العامة التأمينات 
+  FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE)/100 as INnboss12_,
+
+ 
+(select top 1 [DEATH_INSURANCE_PREMIUM_WORKER_MADEN]----6
+  FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE
+ )/100 as INnemp6_,
+
+(select top 1 [DEATH_INSURANCE_PREMIUM_BOSS_MADEN]----9
+  FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE)/100 as INnboss9_,
+
+
+
+(select top 1 DEATH_INSURANCE_WORKER  FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE
+ )/100 as INnemp7_,
+
+(select top 1 DEATH_INSURANCE_BOSS  FROM [INSURANCE_RATIO] 
+ where #createDate(arguments.sal_year,arguments.sal_mon,1)#  between  STARTDATE  and FINISHDATE)/100 as INnboss11_,
+
+
 <!--- اجمالي الاستقطاعات داخل الحافز ---->		
 		
 isnull((
