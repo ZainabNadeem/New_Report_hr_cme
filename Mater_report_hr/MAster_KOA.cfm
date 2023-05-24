@@ -2305,9 +2305,6 @@ WHERE
 
 <td   style="#row_color#; text-align:center;background:##D9D9D9;"  title="total allow"> #numberFormat((eprza.Total_allowance),'_,9.99')#</td>
 	 <cfset t_col13_sum= t_col13_sum + val(NumberFormat(eprza.Total_allowance,'0000.00'))>
-		<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
-       
-
    
 <!--- this for Transportation_allowance_div  --->
 <td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK11_comp,'_,9.99')#</td>
@@ -2315,7 +2312,10 @@ WHERE
 <!--- this for Work_injury_1 --->
 <td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat((eprza.Work_injury_1),'_,9.99')#</td>
 <cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Work_injury_1,'0000.00'))>
-	      
+	  
+		<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
+       
+       
 
   <cfloop query="GET_ded_name">
    
