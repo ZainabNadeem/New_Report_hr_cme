@@ -415,10 +415,18 @@ where eio2.EMPLOYEE_ID= EMPLOYEES_PUANTAJ_ROWS.EMPLOYEE_ID) as ISSSK
 <!---  يتم اختيار نوع الياقه لتحديد التامين هئية --->
 <!---او مكتب تامين هناك خيارين (1 معناتها هذا موظف مثبت اللياقه زرقاء ) (2- معناتها موظف متعاقد اللياقه بيضاء )  ---->
 		(
-		SELECT TOP 1 COLLAR_TYPE
-		  FROM [EMPLOYEE_POSITIONS]
-		  WHERE POSITION_CODE = EMPLOYEES_PUANTAJ_ROWS.POSITION_CODE) AS COLLAR_TYPE_1
+
+			   SELECT 
+      DUTY_TYPE  
+	   
+    FROM [EMPLOYEES_IN_OUT]
+
+  where  EMPLOYEE_ID =EMPLOYEES_PUANTAJ_ROWS.EMPLOYEE_ID
+		) AS Employee_TYPE_1
     ,
+	
+    
+
 <!--- الراتب التأميني ---->
 isnull(( select top  1 (pr.SALARY ) FROM [EMPLOYEES_PUANTAJ_ROWS] pr
 where  pr.EMPLOYEE_ID= EMPLOYEES_PUANTAJ_ROWS.EMPLOYEE_ID
