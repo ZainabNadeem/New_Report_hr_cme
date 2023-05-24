@@ -151,11 +151,11 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
   where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
   </cfquery>
   
-  <cfquery name="ORGANIZATION_STEPS_1" datasource="#dsn#">
+  <cfquery name="ORGANIZATION_STEPS?1" datasource="#dsn#">
        SELECT 
-      DUTY_TYPE   
+      COLLAR_TYPE   
 	 (SELECT TOP (1) EMPLOYEE_EMAIL FROM EMPLOYEES WHERE EMPLOYEE_ID=#SESSION.EP.USERID#) AS SENDER
-    FROM [EMPLOYEES_IN_OUT]
+  FROM [EMPLOYEE_POSITIONS]
 
   where  EMPLOYEE_ID in ( select EMPLOYEE_ID from employees  ES
   where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
@@ -678,15 +678,7 @@ SELECT
 					</cfoutput>
                 </select>
             </td>
-           <!--- <td style="width:120px">الفئات<select name="FUNC" id="FUNC">
-             <option value="" selected>الكــل</option>
-                    <cfoutput query="get_FUNC">
-					<option value="#UNIT_ID#" <cfif ListFind(attributes.FUNC,UNIT_ID,',')>selected</cfif>>#UNIT_NAME#</option>
-					</cfoutput>
-                </select></td>--->
-                
-                
-        </tr>
+   </tr>
         <tr>
         <td  colspan="2">Grants<select name="Grant" id="Grant" multiple="multiple" style="width:240px">
                     <cfoutput query="ALLOCATION_">
@@ -766,13 +758,8 @@ SELECT
 </cfquery>
      </cfif>
      <cfif GET_FILES.recordcount>
-       <span style="
-  mso-ignore:vglayout;
-  position: absolute;
-  z-index:1;
-  margin-left:0px;
-  margin-top:0px;
-  "><img width="70" src="documents/hr/#GET_FILES.ASSET_FILE_NAME#" v:shapes="Picture_x0020_1"></span>
+       <span style="mso-ignore:vglayout;position: absolute;z-index:1;margin-left:0px;margin-top:0px;">
+       <img width="70" src="documents/hr/#GET_FILES.ASSET_FILE_NAME#" v:shapes="Picture_x0020_1"></span>
        <cfelse>
        
      </cfif>
@@ -836,14 +823,7 @@ WHERE
          </cfif>
          (PAGE_WARNINGS.WARNING_PROCESS=1)
                     </cfquery>
-<!---<cfif len(attributes.Type_id) and attributes.Type_id eq 5>
-<cfquery name="CLOSED_STATE" datasource="#dsn#">
-   SELECT * FROM SAVED_REPORTS
-   WHERE REPORT_NAME LIKE 'KOA_#attributes.sal_mon#_#attributes.sal_year#'
-</cfquery>
-</cfif>
 
-<cfif NOT ISDEFINED('CLOSED_STATE') OR (ISDEFINED('CLOSED_STATE') AND NOT CLOSED_STATE.RECORDCOUNT)> --->
 <cfset MONTH_DAYS=30>
 <cfquery name="GET_MONTH_DAYS" datasource="#DSN#">
  SELECT datediff(day, CONCAT(#attributes.sal_mon#,'/','01', '/',#attributes.sal_year#), dateadd(month, 1, CONCAT(#attributes.sal_mon#,'/','01', '/',#attributes.sal_year#))) AS MONTH_DAYS
@@ -2282,17 +2262,8 @@ WHERE
   <!---5--->     <td   style="#row_color#">#EMPLOYEE_NAME# #EMPLOYEE_SURNAME#</td> 
 
  <td   style="#row_color#width:10;"  >#ORGANIZATION_STEP_NAME#</td> 
- <td   style="#row_color#width:10;"  >
- <CFIF #DUTY_TYPE# eq 1>
-    HTML and CFML tags
-<CFELSEIF>
-    HTML and CFML tags 1
-<CFELSE #DUTY_TYPE# eq 3>
-    HTML and CFML tags
-</CFIF>
- 
- <!---- <cfif #DUTY_TYPE# eq 1 > صندوق تأمينات الجيش  <CFELSEIF> صندوق الهيئة العامة للتأمينات  <CFELSE #DUTY_TYPE# eq 3> صندوق المؤسسة العامة للتامينات </cfif></td> 
- -----><!---6--->    <td   style="#row_color#"  >#POSITION_NAME#</td>
+ <td   style="#row_color#width:10;"  > <cfif #COLLAR_TYPE# eq 1 > صندوق تأمينات الجيش  <cfelse> صندوق الهيئة العامة للتأمينات  <cfelse #COLLAR_TYPE# eq 3> صندوق المؤسسة العامة للتامينات </cfif></td> 
+  <!---6--->    <td   style="#row_color#"  >#POSITION_NAME#</td>
     <!---7--->    <td   style="#row_color#"  >#branch_name# </td>
   <!---7--->    <td   style="#row_color#"  >#DEPARTMENT_HEAD#</td>
 
@@ -2305,20 +2276,14 @@ WHERE
 <td   style="#row_color#; text-align:center" title="base salary">#numberFormat(eprza.Salary_days_work,'_,9.99')#</td>
 <cfset t_salba_sum= t_salba_sum + val(NumberFormat(eprza.Salary_days_work,'0000.00'))>
 
-<!--- this for Transportation_allowance_div  --->
-<td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK11_comp,'_,9.99')#</td>
-<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK11_comp,'0000.00'))>
-<!--- this for Work_injury_1 --->
-<td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat((eprza.Work_injury_1),'_,9.99')#</td>
-<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Work_injury_1,'0000.00'))>
-	  
 		 <cfif ListFind(attributes.allowance,1,',') OR  len(attributes.allowance)> 
 
   <cfloop query="GET_allow_name">
    
 
 	 <cfquery name="get_allow_value" dbtype="query">
-	SELECT SUM(CAST(get_allow_query.AMOUNT as decimal)) AS amount FROM get_allow_query  WHERE get_allow_query.COMMENT_PAY like '#GET_allow_name.COMMENT_PAY#' and EMPLOYEE_PUANTAJ_ID=#get_puantaj_rows.EMPLOYEE_PUANTAJ_ID#  
+	SELECT SUM(CAST(get_allow_query.AMOUNT as decimal)) AS amount FROM get_allow_query  
+  WHERE get_allow_query.COMMENT_PAY like '#GET_allow_name.COMMENT_PAY#' and EMPLOYEE_PUANTAJ_ID=#get_puantaj_rows.EMPLOYEE_PUANTAJ_ID#  
 </cfquery>
 
 
@@ -2342,13 +2307,22 @@ WHERE
 	 <cfset t_col13_sum= t_col13_sum + val(NumberFormat(eprza.Total_allowance,'0000.00'))>
 		<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
        
-       
+
+   
+<!--- this for Transportation_allowance_div  --->
+<td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK11_comp,'_,9.99')#</td>
+<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK11_comp,'0000.00'))>
+<!--- this for Work_injury_1 --->
+<td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat((eprza.Work_injury_1),'_,9.99')#</td>
+<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Work_injury_1,'0000.00'))>
+	      
 
   <cfloop query="GET_ded_name">
    
 
 	 <cfquery name="get_ded_value" dbtype="query">
-	SELECT SUM(CAST(get_ded_query.AMOUNT as decimal)) AS amount FROM get_ded_query  WHERE get_ded_query.COMMENT_PAY like '#GET_ded_name.COMMENT_PAY#' and EMPLOYEE_PUANTAJ_ID=#get_puantaj_rows.EMPLOYEE_PUANTAJ_ID#  
+	SELECT SUM(CAST(get_ded_query.AMOUNT as decimal)) AS amount FROM get_ded_query  WHERE
+   get_ded_query.COMMENT_PAY like '#GET_ded_name.COMMENT_PAY#' and EMPLOYEE_PUANTAJ_ID=#get_puantaj_rows.EMPLOYEE_PUANTAJ_ID#  
 </cfquery>
 
 	

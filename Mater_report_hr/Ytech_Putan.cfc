@@ -488,67 +488,21 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
 <!------------------------------  yah  تامين الموظف---->
 (case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then ((ISSIZLIK_ISCI_HISSESI) /maxdayofmon * Work_day) else (ISSIZLIK_ISCI_HISSESI) END ) as SSK11_emp ,
 <!------------------------------  yah اصابة عمل  ---->
-(Case when (COLLAR_TYPE_1 =1 and   POSITION_NAME <> 'محال للتقاعد' and in_out_id <> 151  )   then (SALARY * 0.01)  else 0  end ) as Work_injury_1
-
+ (SALARY * 0.01) as Box_1_tranning,
+ (SALARY * 0.02) as insurance_2
 
  	from CTE2
 		
 		)
 
-		,CTE3 AS
-		(
-		<!--- هذا ال بدلات خاص بالشركات التي كشف راتبها يعتمد ع بدل موصلات وتمثيل ومظهر ----->
-		
-		SELECT *
-		FROM CTE000
-		)
-
-
-		,
-CTE4 as (
-
-Select *
-  
-  from CTE3
-  )
-  ,CTE5 as(
-  select *
-
-  from CTE4)
-  ,
-  CTE6 as
-   (
-   select * 
-   from  CTE5
-   )
-   ,
-	
-	CTE003  as 
-	(
-	select *
-
-	
-	from CTE6
-	)
-   , 
-		CTE001 as
-		( 
-		select *
-		
-		from CTE003
-		)
-  ,
-  
+		,  
 CTE7  As 
 		(
 		select * ,
 		<!---------اجمالي الاستحقاق ya-------------------> 
-		(  (Salary / maxdayofmon * Work_day)  + allow_no_tax + allow_with_tax + SSK11_comp + Work_injury_1 ) as Total_allowance 
-		
-		
- 
-
-		from CTE001
+		( 
+			 (Salary / maxdayofmon * Work_day)  + allow_no_tax + allow_with_tax + SSK11_comp + Box_1_tranning ) as Total_allowance 
+				from CTE000
 		)
 		
 		,
@@ -563,7 +517,7 @@ CTE7  As
 		CTE004 as
 		(
 		select *,
-		(   Total_allowance - ( SSK11_emp + SSK11_comp+ Work_injury_1  )) as Taxbale_all
+		(   Total_allowance - ( SSK11_emp + SSK11_comp+ Box_1_tranning  )) as Taxbale_all
 		from CTE0000
 		),
 		CTE8 as (
@@ -595,7 +549,7 @@ CTE7  As
 	(
 	Select * ,
 	
-	( dede_salary + tax_1 + Total_insurance + Work_injury_1   ) as Total_deduction 
+	( dede_salary + tax_1 + Total_insurance + Box_1_tranning   ) as Total_deduction 
 	
 	
 	
