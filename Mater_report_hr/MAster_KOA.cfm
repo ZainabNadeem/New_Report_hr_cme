@@ -2309,9 +2309,9 @@ WHERE
 <!--- this for Transportation_allowance_div  --->
 <td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK11_comp,'_,9.99')#</td>
 <cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK11_comp,'0000.00'))>
-<!--- this for Work_injury_1 --->
-<td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat((eprza.Work_injury_1),'_,9.99')#</td>
-<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Work_injury_1,'0000.00'))>
+<!--- this for Box_1_tranning --->
+<td   style="#row_color#; text-align:center" title="Box_1_tranning">#numberFormat((eprza.Box_1_tranning),'_,9.99')#</td>
+<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Box_1_tranning,'0000.00'))>
 	  
 		<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
        
@@ -2358,12 +2358,12 @@ WHERE
 <!--- this for tax_1 --->
 <td   style="#row_color#; text-align:center" title="tax_1">#numberFormat((eprza.tax_1),'_,9.99')#</td>
 <cfset t_20_sum= t_20_sum + val(NumberFormat((eprza.tax_1),'0000.00'))>
-<!--- this for Work_injury_1 --->
-<td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat(eprza.Total_insurance,'_,9.99')#</td>
+<!--- this for Box_1_tranning --->
+<td   style="#row_color#; text-align:center" title="Box_1_tranning">#numberFormat(eprza.Total_insurance,'_,9.99')#</td>
 <cfset t_16_sum= t_16_sum + val(NumberFormat(eprza.Total_insurance,'0000.00'))>
-<!--- this for Work_injury_1 --->
-<td   style="#row_color#; text-align:center" title="Work_injury_1">#numberFormat((eprza.Work_injury_1),'_,9.99')#</td>
-<cfset t_17_sum= t_17_sum + val(NumberFormat((eprza.Work_injury_1),'0000.00'))>
+<!--- this for Box_1_tranning --->
+<td   style="#row_color#; text-align:center" title="Box_1_tranning">#numberFormat((eprza.Box_1_tranning),'_,9.99')#</td>
+<cfset t_17_sum= t_17_sum + val(NumberFormat((eprza.Box_1_tranning),'0000.00'))>
 <!--- this for Total_deduction --->
 <td   style="#row_color#; text-align:center;background:##D9D9D9;"  title="total dedection"> #numberFormat((eprza.Total_deduction),'_,9.99')#</td>
 <cfset t_18_sum= t_18_sum + val(NumberFormat(eprza.Total_deduction,'0000.00'))>
