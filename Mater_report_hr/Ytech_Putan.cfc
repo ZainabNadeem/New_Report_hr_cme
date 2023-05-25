@@ -482,9 +482,11 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
 		(
 		SELECT *,
 		( CASE when Gr_all = 3 then r else base_salary_A end) as Salary_days_workو
-		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnboss_)) /maxdayofmon * Work_day) else (r * INnboss_) END ) as SSK1_company  ,
-		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  ,
-		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * 0.00)) /maxdayofmon * Work_day) else (r * 0.00) END ) as SSK1_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnboss12_)) /maxdayofmon * Work_day) else (r * INnboss12_) END ) as SSK12_company  ,
+				(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnemp12_)) /maxdayofmon * Work_day) else (r * INnemp12_) END ) as SSK12_employe  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss9_+INnemp6_))) /maxdayofmon * Work_day) else (r * (INnboss9_+INnemp6_)) END ) as SSK15c_company  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnemp6_)) /maxdayofmon * Work_day) else (r * INnemp6_) END ) as SSK6_employee  ,
+		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * INnboss9_)) /maxdayofmon * Work_day) else (r * INnboss9_) END ) as SSK9_company  ,
 		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  ,
 		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * 0.00)) /maxdayofmon * Work_day) else (r * 0.00) END ) as SSK1_company  ,
 		(case when ISNEW > 0 AND  Work_day < 15 then 0  when ISNEW > 0 AND  Work_day < maxdayofmon then (((r * (INnboss_+INnemp_))) /maxdayofmon * Work_day) else (r * (INnboss_+INnemp_)) END ) as SSK15c_company  
