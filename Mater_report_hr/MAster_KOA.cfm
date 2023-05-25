@@ -151,15 +151,6 @@ FROM            EMPLOYEES_PUANTAJ_ROWS INNER JOIN
   where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
   </cfquery>
   
-  <cfquery name="ORGANIZATION_STEPS?1" datasource="#dsn#">
-       SELECT 
-      COLLAR_TYPE   
-	 (SELECT TOP (1) EMPLOYEE_EMAIL FROM EMPLOYEES WHERE EMPLOYEE_ID=#SESSION.EP.USERID#) AS SENDER
-  FROM [EMPLOYEE_POSITIONS]
-
-  where  EMPLOYEE_ID in ( select EMPLOYEE_ID from employees  ES
-  where (ES.EMPLOYEE_ID =#RECEIVER_ID#)
-  </cfquery> 
   
   
 		<cfif ISDEFINED('attributes.W_ID_') AND LEN (attributes.W_ID_)>
@@ -2241,11 +2232,20 @@ WHERE
  SELECT *   FROM [SETUP_CV_UNIT] 
  </cfquery>
  
+<cfquery name="ORGANIZATION_STEPS_1" datasource="#dsn#">
+       SELECT 
+      DUTY_TYPE   
+	 
+  FROM [EMPLOYEES_IN_OUT]
 
+  where  EMPLOYEE_ID  = #EMPLOYEE_ID#
+ 
+  </cfquery> 
+  
 
 
 <cfscript>
-		get_puantaj_12 = createObject("component", "v16.hr.ehesap.cfc.Ytech_Putan");
+		get_puantaj_12 = createObject("component", "V16.add_options.ak.hr.ehesap.cfc.Ytech_Putan");
 															  
 		  
 		get_puantaj_12.set_variables(
@@ -2262,7 +2262,7 @@ WHERE
   <!---5--->     <td   style="#row_color#">#EMPLOYEE_NAME# #EMPLOYEE_SURNAME#</td> 
 
  <td   style="#row_color#width:10;"  >#ORGANIZATION_STEP_NAME#</td> 
- <td   style="#row_color#width:10;"  > <cfif #COLLAR_TYPE# eq 1 > صندوق تأمينات الجيش  <cfelse> صندوق الهيئة العامة للتأمينات  <cfelse #COLLAR_TYPE# eq 3> صندوق المؤسسة العامة للتامينات </cfif></td> 
+ <td   style="#row_color#width:10;"  > <cfif #ORGANIZATION_STEPS_1.DUTY_TYPE# eq 1 > صندوق تأمينات الجيش   <cfelseif #ORGANIZATION_STEPS_1.DUTY_TYPE# eq 3> صندوق المؤسسة العامة للتامينات <cfelse> صندوق الهيئة العامة للتأمينات  </cfif></td> 
   <!---6--->    <td   style="#row_color#"  >#POSITION_NAME#</td>
     <!---7--->    <td   style="#row_color#"  >#branch_name# </td>
   <!---7--->    <td   style="#row_color#"  >#DEPARTMENT_HEAD#</td>
@@ -2306,17 +2306,38 @@ WHERE
 <td   style="#row_color#; text-align:center;background:##D9D9D9;"  title="total allow"> #numberFormat((eprza.Total_allowance),'_,9.99')#</td>
 	 <cfset t_col13_sum= t_col13_sum + val(NumberFormat(eprza.Total_allowance,'0000.00'))>
    
-<!--- this for Transportation_allowance_div  --->
-<td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK11_comp,'_,9.99')#</td>
-<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK11_comp,'0000.00'))>
-<!--- this for Box_1_tranning --->
+   <!--- this for Box_1_tranning --->
 <td   style="#row_color#; text-align:center" title="Box_1_tranning">#numberFormat((eprza.Box_1_tranning),'_,9.99')#</td>
 <cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Box_1_tranning,'0000.00'))>
 	  
-		<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
-       
-       
+<!--- this for Transportation_allowance_div  --->
+<td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.insurance_2,'_,9.99')#</td>
+<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.insurance_2,'0000.00'))>
 
+	
+     <!--- this for SSK6_employee --->
+<td   style="#row_color#; text-align:center" title="SSK6_employee">#numberFormat((eprza.SSK6_employee),'_,9.99')#</td>
+<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.Box_1_traSSK6_employeenning,'0000.00'))>
+	  
+<!--- this for SSK9_company  --->
+<td   style="#row_color#; text-align:center" title="SSK_ded">#numberFormat(eprza.SSK9_company,'_,9.99')#</td>
+<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK9_company,'0000.00'))>
+   <!--- this for SSK12_company --->
+<td   style="#row_color#; text-align:center" title="SSK12_company">#numberFormat((eprza.SSK12_company),'_,9.99')#</td>
+<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.SSK12_company,'0000.00'))>
+	  
+<!--- this for SSK12_employe  --->
+<td   style="#row_color#; text-align:center" title="SSK12_employe">#numberFormat(eprza.SSK12_employe,'_,9.99')#</td>
+<cfset t_dec_sum= t_dec_sum + val(NumberFormat(eprza.SSK12_employe,'0000.00'))>
+
+   <!--- this for SSK15c_company --->
+<td   style="#row_color#; text-align:center" title="SSK15c_company">#numberFormat((eprza.SSK15c_company),'_,9.99')#</td>
+<cfset t_15_sum= t_15_sum + val(NumberFormat(eprza.SSK15c_company,'0000.00'))>
+	  
+
+  
+  	<cfif ListFind(attributes.deduction,1,',') OR  len(attributes.deduction)>
+ 
   <cfloop query="GET_ded_name">
    
 
@@ -2650,8 +2671,7 @@ WHERE
 			   document.getElementById('collr').style.display='none';
 		  }
 	}
-	 <cfif len(attributes.Type_id) >
-	   state_color(<cfoutput>#attributes.Type_id#</cfoutput>);
+	 <cfif len(attributes.Type_id) > state_color(<cfoutput>#attributes.Type_id#</cfoutput>);
 	 </cfif>
 	//document.getElementById('detail_report_div').id="detail_report_divyy";
 	//document.getElementById('detail_report_divxx').id="detail_report_div";
